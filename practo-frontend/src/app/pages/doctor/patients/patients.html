@@ -1,0 +1,94 @@
+<div class="patients-master-detail-container">
+  <!-- Left Sidebar (Master) -->
+  <div class="patients-sidebar">
+    <div class="page-header">
+      <div class="header-top">
+        <h2>My Patients</h2>
+        <button class="btn-icon" (click)="toggleAddModal()" title="Add Patient" style="font-size: 24px; line-height: 1; font-weight: 300;">
+          +
+        </button>
+      </div>
+      <div class="search-bar">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" placeholder="Search patients...">
+      </div>
+    </div>
+
+    <div class="patients-list">
+      <div class="patient-card" 
+           *ngFor="let patient of patients" 
+           [class.active]="patient.id === selectedPatientId"
+           (click)="selectPatient(patient.id)">
+        <div class="patient-avatar">
+          <i class="fa-regular fa-user"></i>
+        </div>
+        <div class="patient-details">
+          <h3>{{ patient.name }}</h3>
+          <p>{{ patient.gender }}, {{ patient.age || 'N/A' }} Yrs</p>
+        </div>
+        <div class="patient-meta">
+          <span>Last Visit:</span>
+          <p>{{ patient.lastVisit | date:'mediumDate' }}</p>
+        </div>
+      </div>
+      
+      <div *ngIf="patients.length === 0" class="empty-state">
+        <i class="fa-solid fa-user-injured"></i>
+        <p>No patients found. Your patients will appear here after booking an appointment.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Content (Detail) -->
+  <div class="patients-detail-pane">
+    <!-- If no patient selected, show placeholder -->
+    <div *ngIf="!selectedPatientId" class="detail-placeholder">
+      <div class="placeholder-icon">
+        <i class="fa-solid fa-file-medical"></i>
+      </div>
+      <h3>Select a patient to view their clinical chart</h3>
+      <p>View historical appointments, add medical records, and schedule next visits.</p>
+    </div>
+
+    <!-- Router outlet for PatientDetailsComponent -->
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
+<!-- Add Patient Modal -->
+<div class="modal-overlay" *ngIf="showAddModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Add New Patient</h2>
+      <button class="close-btn" (click)="toggleAddModal()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Full Name *</label>
+        <input type="text" [(ngModel)]="newPatient.fullName" placeholder="e.g. John Doe">
+      </div>
+      <div class="form-group">
+        <label>Mobile Number *</label>
+        <input type="text" [(ngModel)]="newPatient.mobile" placeholder="e.g. +91 9876543210">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Gender</label>
+          <select [(ngModel)]="newPatient.gender">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Age</label>
+          <input type="number" [(ngModel)]="newPatient.age" placeholder="e.g. 30">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" (click)="toggleAddModal()">Cancel</button>
+      <button class="btn-primary" (click)="submitPatient()" [disabled]="!newPatient.fullName || !newPatient.mobile">Save Patient</button>
+    </div>
+  </div>
+</div>

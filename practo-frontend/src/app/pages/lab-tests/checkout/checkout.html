@@ -1,0 +1,223 @@
+<div class="bg-gray-50 min-h-screen py-8">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row gap-8">
+    
+    <!-- Left Column: Checkout Steps -->
+    <div class="flex-grow">
+      <!-- Progress Bar -->
+      <div class="bg-white p-6 border-b border-gray-100 flex justify-center items-center gap-4 text-xs font-semibold mb-6 rounded-t-lg shadow-sm">
+        <div class="flex flex-col items-center" [ngClass]="currentStep >= 1 ? 'text-blue-600' : 'text-gray-400'">
+          <div class="w-2 h-2 rounded-full mb-1" [ngClass]="currentStep >= 1 ? 'bg-blue-600' : 'bg-gray-300'"></div>
+          <span>1. Add patient details</span>
+        </div>
+        <div class="w-16 h-px bg-gray-300"></div>
+        <div class="flex flex-col items-center" [ngClass]="currentStep >= 2 ? 'text-blue-600' : 'text-gray-400'">
+          <div class="w-2 h-2 rounded-full mb-1" [ngClass]="currentStep >= 2 ? 'bg-blue-600' : 'bg-gray-300'"></div>
+          <span>2. Select patient address</span>
+        </div>
+        <div class="w-16 h-px bg-gray-300"></div>
+        <div class="flex flex-col items-center" [ngClass]="currentStep >= 3 ? 'text-blue-600' : 'text-gray-400'">
+          <div class="w-2 h-2 rounded-full mb-1" [ngClass]="currentStep >= 3 ? 'bg-blue-600' : 'bg-gray-300'"></div>
+          <span>3. Select time slot</span>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-b-lg shadow-sm p-8 min-h-[400px]">
+        <!-- Step 1: Patient Details -->
+        <div *ngIf="currentStep === 1" class="max-w-md mx-auto">
+          <h2 class="text-xl font-bold text-gray-800 mb-6 text-center">Add patient details</h2>
+          
+          <div class="space-y-6">
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-1">Patient Name *</label>
+              <input type="text" [(ngModel)]="patientName" class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-blue-500" placeholder="e.g. Isha Harish">
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-1">Age *</label>
+              <input type="number" [(ngModel)]="patientAge" class="w-32 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-blue-500" placeholder="Years">
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Gender *</label>
+              <div class="flex gap-4 text-sm">
+                <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="gender" value="Male" [(ngModel)]="gender"> Male</label>
+                <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="gender" value="Female" [(ngModel)]="gender"> Female</label>
+                <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="gender" value="Other" [(ngModel)]="gender"> Other</label>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-1">Mobile Number *</label>
+              <input type="text" [(ngModel)]="mobileNumber" class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-blue-500" placeholder="+91">
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-1">Email *</label>
+              <input type="email" [(ngModel)]="email" class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-blue-500" placeholder="you@practo.com">
+            </div>
+
+            <button (click)="nextStep()" class="w-full bg-[#00A5CF] hover:bg-[#008fb5] text-white font-bold py-3 rounded mt-4 transition-colors">
+              Continue
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 2: Address -->
+        <div *ngIf="currentStep === 2" class="max-w-md mx-auto">
+          <div class="mb-4">
+            <button (click)="prevStep()" class="text-blue-500 text-sm flex items-center gap-1 hover:underline"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg> Back</button>
+          </div>
+          <h2 class="text-xl font-bold text-gray-800 mb-6 text-center">Add patient address</h2>
+          
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-1">Pincode *</label>
+              <input type="text" [(ngModel)]="pincode" class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-blue-500" placeholder="e.g. 560001">
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-1">House/Flat No. & Building Name *</label>
+              <input type="text" [(ngModel)]="houseOrFlat" class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-blue-500">
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-1">Landmark *</label>
+              <input type="text" [(ngModel)]="landmark" class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-blue-500">
+            </div>
+
+            <div class="pt-2">
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Save this address as</label>
+              <div class="flex gap-4 text-sm">
+                <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="addressType" value="Home" [(ngModel)]="addressType"> Home</label>
+                <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="addressType" value="Work" [(ngModel)]="addressType"> Work</label>
+                <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="addressType" value="Other" [(ngModel)]="addressType"> Other</label>
+              </div>
+            </div>
+
+            <button (click)="nextStep()" class="w-full bg-[#00A5CF] hover:bg-[#008fb5] text-white font-bold py-3 rounded mt-4 transition-colors">
+              Save & Continue
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 3: Time Slot -->
+        <div *ngIf="currentStep === 3">
+          <div class="mb-4">
+            <button (click)="prevStep()" class="text-blue-500 text-sm flex items-center gap-1 hover:underline"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg> Back</button>
+          </div>
+          
+          <div class="flex flex-col md:flex-row gap-8">
+            <!-- Summary Left Pane -->
+            <div class="md:w-1/3 bg-gray-50 p-4 rounded text-sm">
+              <h3 class="font-bold text-gray-800 mb-4 border-b pb-2">Patient Details</h3>
+              <p class="mb-1 font-semibold">{{patientName}}</p>
+              <p class="text-gray-500 mb-1">{{patientAge}} yrs, {{gender}}</p>
+              <p class="text-gray-500 mb-4">{{email}}</p>
+
+              <h3 class="font-bold text-gray-800 mb-2 border-b pb-2 pt-2">Address</h3>
+              <p class="font-semibold">{{houseOrFlat}}</p>
+              <p class="text-gray-500">{{landmark}}</p>
+              <p class="text-gray-500">{{pincode}}</p>
+              <p class="text-gray-500 mt-2">{{mobileNumber}}</p>
+            </div>
+
+            <!-- Slots Right Pane -->
+            <div class="md:w-2/3">
+              <!-- Date Tabs -->
+              <div class="flex border-b mb-6 overflow-x-auto">
+                <button *ngFor="let d of dates" (click)="selectDate(d)" class="px-6 py-2 text-sm font-semibold whitespace-nowrap border-b-2" [ngClass]="selectedDate === d ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'">
+                  {{d | date:'E, d MMM'}}
+                </button>
+              </div>
+
+              <!-- Slots -->
+              <div class="space-y-6">
+                <div>
+                  <h4 class="text-sm font-semibold text-gray-500 mb-3 flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg> Morning
+                  </h4>
+                  <div class="flex flex-wrap gap-3">
+                    <button *ngFor="let slot of morningSlots" (click)="selectTimeSlot(slot)" class="px-3 py-2 text-xs border rounded transition-colors" [ngClass]="selectedTimeSlot === slot ? 'bg-[#1b2559] text-white border-[#1b2559]' : 'border-blue-300 text-blue-600 hover:bg-blue-50'">
+                      {{slot}}
+                    </button>
+                  </div>
+                </div>
+
+                <div>
+                  <h4 class="text-sm font-semibold text-gray-500 mb-3 flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg> Afternoon
+                  </h4>
+                  <div class="flex flex-wrap gap-3">
+                    <button *ngFor="let slot of afternoonSlots" (click)="selectTimeSlot(slot)" class="px-3 py-2 text-xs border rounded transition-colors" [ngClass]="selectedTimeSlot === slot ? 'bg-[#1b2559] text-white border-[#1b2559]' : 'border-blue-300 text-blue-600 hover:bg-blue-50'">
+                      {{slot}}
+                    </button>
+                  </div>
+                </div>
+
+                <div>
+                  <h4 class="text-sm font-semibold text-gray-500 mb-3 flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg> Evening
+                  </h4>
+                  <div class="flex flex-wrap gap-3">
+                    <button *ngFor="let slot of eveningSlots" (click)="selectTimeSlot(slot)" class="px-3 py-2 text-xs border rounded transition-colors" [ngClass]="selectedTimeSlot === slot ? 'bg-[#1b2559] text-white border-[#1b2559]' : 'border-blue-300 text-blue-600 hover:bg-blue-50'">
+                      {{slot}}
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mt-10 border-t pt-6 text-center">
+                <p class="text-xs text-gray-500 mb-4">By placing order you are agreeing to Practo T&C</p>
+                <div class="flex gap-4">
+                  <button (click)="proceedToPayment('pay_at_pickup')" [disabled]="!selectedTimeSlot" class="flex-1 py-3 border border-[#00A5CF] text-[#00A5CF] font-bold rounded hover:bg-blue-50 disabled:opacity-50">Pay at pick up</button>
+                  <button (click)="proceedToPayment('pay_now')" [disabled]="!selectedTimeSlot" class="flex-1 py-3 bg-[#00A5CF] text-white font-bold rounded hover:bg-[#008fb5] disabled:opacity-50">Pay Now</button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Right Sidebar (Cart) -->
+    <div class="w-full lg:w-[350px]">
+      <div class="bg-white border border-gray-200 rounded-lg shadow-sm sticky top-6">
+        <div class="p-4 border-b border-gray-100 bg-gray-50 flex justify-between items-center">
+          <h3 class="font-bold text-practo-text">Your Cart <span class="font-normal text-xs text-gray-500 ml-1">{{cartService.getCart().length}} Test(s)</span></h3>
+        </div>
+        
+        <div class="p-4 max-h-[300px] overflow-y-auto">
+          <div *ngFor="let item of cartService.getCart()" class="flex justify-between items-start mb-4 border-b border-gray-50 pb-4">
+            <div>
+              <h4 class="font-bold text-practo-text text-sm mb-1 pr-2">{{item.name}}</h4>
+              <p class="text-xs text-blue-600 mt-1 font-semibold">By Practo Labs</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <p class="font-bold text-sm">₹{{item.price}}</p>
+            </div>
+          </div>
+
+          <div class="flex justify-between items-center py-3 border border-dashed border-gray-300 rounded px-3 my-4 cursor-pointer hover:bg-gray-50">
+            <span class="text-sm">Apply Coupon</span>
+            <span class="text-gray-400">></span>
+          </div>
+
+          <div class="flex justify-between items-center text-sm mb-4">
+            <span class="text-gray-600">Pick up charges</span>
+            <span>₹150</span>
+          </div>
+        </div>
+
+        <div class="border-t border-gray-200 p-4 bg-gray-50">
+          <div class="flex justify-between items-center mb-2">
+            <span class="font-bold text-practo-text">Total</span>
+            <span class="font-bold text-xl">₹{{cartService.getCartTotal() + 150}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

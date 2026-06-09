@@ -1,0 +1,87 @@
+<!-- Hero Banner -->
+<div class="bg-[#1b2559] text-white py-12 relative overflow-hidden">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col md:flex-row justify-between items-center">
+    <div class="md:w-1/2">
+      <div class="inline-block bg-white text-[#1b2559] text-xs font-bold px-2 py-1 rounded mb-4">Get 25% off on Medicines</div>
+      <h1 class="text-3xl font-bold mb-6">Book Lab Tests Online</h1>
+      
+      <div class="bg-white rounded-lg p-2 flex flex-col sm:flex-row gap-2 max-w-xl">
+        <div class="flex-1 flex items-center bg-gray-50 rounded px-3 py-2">
+          <svg class="w-5 h-5 text-gray-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
+          <input type="text" class="bg-transparent w-full focus:outline-none text-practo-text text-sm" placeholder="Bangalore" value="Bangalore">
+        </div>
+        <div class="flex-2 flex items-center bg-gray-50 rounded px-3 py-2 flex-grow">
+          <svg class="w-5 h-5 text-gray-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+          <input type="text" class="bg-transparent w-full focus:outline-none text-practo-text text-sm" placeholder="Search for Tests, Profiles or Packages">
+        </div>
+        <button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded text-sm transition-colors">Search</button>
+      </div>
+    </div>
+    <div class="md:w-1/2 mt-8 md:mt-0 flex justify-end relative">
+      <button (click)="toggleCart()" class="relative bg-white text-practo-text border border-gray-300 font-semibold py-2 px-6 rounded text-sm hover:bg-gray-50 flex items-center gap-2">
+        <svg class="w-5 h-5 text-practo-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+        <span *ngIf="cartService.getCart().length > 0" class="bg-practo-blue text-white rounded-full h-5 w-5 flex items-center justify-center text-xs absolute -top-2 -right-2">{{cartService.getCart().length}}</span>
+        Cart
+      </button>
+
+      <!-- Cart Dropdown -->
+      <div *ngIf="isCartOpen" class="absolute top-12 right-0 w-80 bg-white rounded-lg shadow-xl border border-gray-200 z-50 overflow-hidden">
+        <div class="p-4 border-b border-gray-100 bg-gray-50 flex justify-between items-center">
+          <h3 class="font-bold text-practo-text text-sm">Your Cart <span class="font-normal text-xs text-practo-muted">{{cartService.getCart().length}} Test(s)</span></h3>
+        </div>
+        
+        <div *ngIf="cartService.getCart().length === 0" class="p-8 text-center text-gray-500 text-sm">
+          Your cart is empty.
+        </div>
+        <div *ngFor="let item of cartService.getCart()" class="flex justify-between items-start mb-6 border-b pb-4">
+          <div>
+            <h4 class="font-bold text-practo-text text-sm mb-1">{{item.name}}</h4>
+            <p class="text-xs text-gray-500">By Practo Labs</p>
+          </div>
+          <div class="flex items-center gap-4">
+            <p class="font-bold">₹{{item.price}}</p>
+            <button (click)="cartService.removeFromCart(item.id)" class="text-gray-400 hover:text-red-500 text-lg">×</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-t pt-4 mt-auto">
+        <div class="flex justify-between items-center mb-4">
+          <span class="font-bold text-practo-text">Total</span>
+          <span class="font-bold text-xl">₹{{cartService.getCartTotal()}}</span>
+        </div>
+        <button (click)="openBookingModal()" [disabled]="cartService.getCart().length === 0" class="w-full bg-[#28883B] hover:bg-[#1f6b2e] text-white font-bold py-3 rounded text-center transition-colors disabled:opacity-50">
+          Proceed to Checkout
+        </button>
+      </div>
+    </div>
+  </div>
+
+<!-- Main Content -->
+<div class="bg-gray-50 py-12 relative min-h-screen">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+    
+    <!-- Top Booked Tests -->
+    <div class="mb-12">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold text-practo-text">Top Booked Diagnostic Tests</h2>
+      </div>
+      
+      <div class="flex overflow-x-auto pb-4 gap-6 snap-x">
+        <div *ngFor="let test of individualTests" class="min-w-[240px] max-w-[240px] bg-white rounded-xl shadow-sm border border-gray-100 p-5 snap-start flex flex-col justify-between hover:shadow-md transition-shadow cursor-pointer" [routerLink]="['/tests', test.id]">
+          <div>
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="font-bold text-sm text-practo-text leading-tight pr-2">{{test.name}}</h3>
+              <p class="font-bold text-green-600 text-sm whitespace-nowrap">₹{{test.price}}</p>
+            </div>
+            <p class="text-xs text-gray-400 mb-6 line-clamp-2">Known as {{test.description}}</p>
+          </div>
+          <div class="border-t border-gray-100 pt-4 mt-auto" (click)="$event.stopPropagation()">
+            <button *ngIf="!cartService.isInCart(test.id)" (click)="cartService.addToCart(test)" class="text-[#00A5CF] font-bold py-1 w-full text-center text-xs hover:bg-blue-50 transition-colors">ADD TO CART</button>
+            <button *ngIf="cartService.isInCart(test.id)" (click)="cartService.removeFromCart(test.id)" class="text-[#28883B] font-bold py-1 w-full text-center text-xs hover:bg-green-50 transition-colors">REMOVE</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

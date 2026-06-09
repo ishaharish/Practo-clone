@@ -1,0 +1,125 @@
+<div class="patient-chart-wrapper" *ngIf="patientData">
+  <!-- Header Block: Demographic Data -->
+  <div class="chart-header">
+    <div style="display: flex; align-items: center; flex: 1;">
+      <div class="patient-avatar-large">
+        <i class="fa-regular fa-user"></i>
+      </div>
+      <div class="patient-title-block">
+        <h2>{{ patientData.name }}</h2>
+        <div class="demographic-pills">
+          <span class="pill"><i class="fa-solid fa-venus-mars"></i> {{ patientData.gender }}</span>
+          <span class="pill"><i class="fa-solid fa-calendar-days"></i> {{ patientData.age || 'N/A' }} Yrs</span>
+          <span class="pill" *ngIf="patientData.bloodGroup"><i class="fa-solid fa-droplet" style="color: #ef4444;"></i> {{ patientData.bloodGroup }}</span>
+          <span class="pill"><i class="fa-solid fa-phone"></i> {{ patientData.mobile }}</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="header-actions">
+      <button class="btn-danger-outline" (click)="deletePatient()">
+        <i class="fa-solid fa-trash"></i> Delete Patient
+      </button>
+    </div>
+  </div>
+
+  <div class="chart-body">
+    <!-- Left Column: Timeline -->
+    <div class="timeline-column">
+      <h3 class="section-title">Clinical History</h3>
+      
+      <div class="timeline-container">
+        <div class="timeline-node" *ngFor="let appt of patientData.timeline">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <div class="appt-header">
+              <span class="appt-date">{{ appt.date | date:'medium' }}</span>
+              <span class="appt-status" [ngClass]="appt.status.toLowerCase()">{{ appt.status }}</span>
+            </div>
+            <p class="appt-doctor">Consulted with <b>{{ appt.doctorName }}</b> ({{ appt.category }})</p>
+            
+            <div class="appt-symptoms" *ngIf="appt.symptoms">
+              <strong>Symptoms reported:</strong> {{ appt.symptoms }}
+            </div>
+
+            <!-- Medical Record Data -->
+            <div class="medical-record-card" *ngIf="appt.medicalRecord">
+              <div class="record-section">
+                <h4><i class="fa-solid fa-stethoscope"></i> Observations / Diagnosis</h4>
+                <p>{{ appt.medicalRecord.diagnosis }}</p>
+                <p>{{ appt.medicalRecord?.diagnosis }}</p>
+              </div>
+              <div class="record-section">
+                <h4><i class="fa-solid fa-pills"></i> Prescription</h4>
+                <p>{{ appt.medicalRecord?.prescription }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Empty State -->
+      <div class="empty-timeline" *ngIf="!patientData?.timeline || patientData.timeline.length === 0">
+        No past clinical records found.
+      </div>
+    </div>
+
+    <!-- Actions Column (Right) -->
+    <div class="actions-column">
+      <!-- Clinical Entry Form -->
+      <div class="action-card">
+        <h3><i class="fa-solid fa-file-medical"></i> Add Clinical Record</h3>
+        <p class="card-subtitle">Attach to the most recent appointment</p>
+        
+        <div class="form-group">
+          <label>Diagnosis</label>
+          <textarea rows="3" [(ngModel)]="clinicalForm.diagnosis" placeholder="e.g. Viral Pharyngitis"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Prescription</label>
+          <textarea rows="3" [(ngModel)]="clinicalForm.prescription" placeholder="e.g. Amoxicillin 500mg BID for 5 days"></textarea>
+        </div>
+        
+        <button class="btn-primary" (click)="saveClinicalRecord()" 
+                [disabled]="!clinicalForm.diagnosis && !clinicalForm.prescription">
+          Save Record
+        </button>
+      </div>
+
+      <!-- Schedule Next Visit -->
+      <div class="action-card next-visit-card">
+        <h3><i class="fa-regular fa-calendar-check"></i> Next Visit</h3>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label>Date</label>
+            <input type="date" [(ngModel)]="nextVisit.date">
+          </div>
+          <div class="form-group">
+            <label>Time</label>
+            <input type="time" [(ngModel)]="nextVisit.time">
+          </div>
+        </div>
+        
+        <button class="btn-outline-primary" (click)="scheduleNextVisit()">
+          Schedule Follow-up
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="loading-state" *ngIf="!patientData && !errorMessage">
+  <i class="fa-solid fa-spinner fa-spin"></i> Loading chart...
+</div>
+
+<div class="error-state" *ngIf="errorMessage" style="padding: 40px; color: red; text-align: center;">
+  <i class="fa-solid fa-triangle-exclamation" style="font-size: 3rem; margin-bottom: 20px;"></i>
+  <h2>Something went wrong</h2>
+  <pre style="text-align: left; background: #fee2e2; padding: 20px; border-radius: 8px;">{{ errorMessage | json }}</pre>
+</div>
+
+<!-- Toast Notification -->
+<div class="toast" *ngIf="showToast">
+  <i class="fa-solid fa-check-circle"></i> {{ toastMessage }}
+</div>

@@ -1,0 +1,239 @@
+<div class="onboarding-container" *ngIf="!showProfileView">
+  <div class="stepper-header">
+    <div class="logo">practo</div>
+    <div class="step-indicator">Step {{currentStep}}/{{totalSteps}}</div>
+  </div>
+
+  <div class="form-container">
+    <!-- Step 1: Medical Registration -->
+    <div *ngIf="currentStep === 1" class="step-content">
+      <h2>Medical Registration</h2>
+      <div class="info-box">
+        <i class="fa-regular fa-lightbulb"></i>
+        <p>This information helps us perform critical checks to ensure that only licensed and genuine medical
+          practitioners are listed on Practo.</p>
+      </div>
+
+      <div class="form-group">
+        <label>Registration Number</label>
+        <input type="text" [(ngModel)]="registrationData.registrationNumber" class="form-control">
+      </div>
+
+      <div class="form-group">
+        <label>Registration Council</label>
+        <select [(ngModel)]="registrationData.registrationCouncil" class="form-control">
+          <option value="Delhi Medical Council">Delhi Medical Council</option>
+          <option value="Maharashtra Medical Council">Maharashtra Medical Council</option>
+          <option value="Karnataka Medical Council">Karnataka Medical Council</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Registration Year</label>
+        <input type="number" [(ngModel)]="registrationData.registrationYear" class="form-control">
+      </div>
+    </div>
+
+    <!-- Step 2: Connect a practice -->
+    <div *ngIf="currentStep === 2" class="step-content">
+      <h2>Connect a practice</h2>
+      <div class="info-box">
+        <i class="fa-regular fa-lightbulb"></i>
+        <p>Patients often search for doctors by locality. Adding your establishments ensures visibility.</p>
+      </div>
+
+      <p>Please select any one of the following:</p>
+
+      <div class="radio-group">
+        <label class="radio-label">
+          <input type="radio" name="practiceType" value="own" [(ngModel)]="establishmentType">
+          I own an establishment
+        </label>
+        <label class="radio-label">
+          <input type="radio" name="practiceType" value="visit" [(ngModel)]="establishmentType">
+          I visit an establishment
+        </label>
+      </div>
+    </div>
+
+    <!-- Step 3: Establishment details -->
+    <div *ngIf="currentStep === 3" class="step-content">
+      <h2>Establishment basic details</h2>
+      <div class="info-box">
+        <i class="fa-regular fa-lightbulb"></i>
+        <p>Basic details about your practice helps patients reach you easily for appointment booking.</p>
+      </div>
+
+      <div class="form-group">
+        <label>Establishment name</label>
+        <input type="text" [(ngModel)]="establishmentData.name" class="form-control">
+      </div>
+
+      <div class="form-group">
+        <label>City</label>
+        <select [(ngModel)]="establishmentData.city" class="form-control">
+          <option value="Delhi">Delhi</option>
+          <option value="Mumbai">Mumbai</option>
+          <option value="Bangalore">Bangalore</option>
+          <option value="Hyderabad">Hyderabad</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Locality</label>
+        <input type="text" [(ngModel)]="establishmentData.locality" class="form-control" placeholder="e.g. Hyder Nagar">
+      </div>
+    </div>
+
+    <!-- Step 4: Identity Proof -->
+    <div *ngIf="currentStep === 4" class="step-content">
+      <h2 *ngIf="!uploadSuccess">Identity Proof</h2>
+      <h2 *ngIf="uploadSuccess" style="color: green;">Profile Completed!</h2>
+
+      <div *ngIf="!uploadSuccess">
+        <div class="info-box">
+          <i class="fa-regular fa-lightbulb"></i>
+          <p>2.5M patients are looking for a doctor on Practo. Verify your credentials and reach out to them.</p>
+        </div>
+
+        <div class="upload-area">
+          <input type="file" (change)="onFileSelected($event)" id="fileInput" style="display: none;">
+          <label for="fileInput" class="btn btn-outline">Select File</label>
+          <span *ngIf="selectedFile">{{ selectedFile.name }}</span>
+        </div>
+
+        <div class="acceptable-docs">
+          <p>Please upload your identity proof to ensure that the ownership of your profile remains with only you.</p>
+          <p>Acceptable documents:</p>
+          <ul>
+            <li>Aadhar Card</li>
+            <li>Driving License</li>
+            <li>Voter Card</li>
+            <li>Any other Govt. ID</li>
+          </ul>
+        </div>
+      </div>
+
+      <div *ngIf="uploadSuccess" class="success-message">
+        <div *ngIf="!doctorProfile">
+          <p>Loading your profile details...</p>
+        </div>
+        <div *ngIf="doctorProfile" class="profile-details-card">
+          <h3 style="color: #1e293b; margin-bottom: 20px;">Doctor Profile Overview</h3>
+
+          <div class="detail-row">
+            <strong>Name:</strong> <span>{{ doctorProfile.name }}</span>
+          </div>
+          <div class="detail-row">
+            <strong>Email:</strong> <span>{{ doctorProfile.email }}</span>
+          </div>
+          <div class="detail-row">
+            <strong>Registration Number:</strong> <span>{{ doctorProfile.registrationNumber }}</span>
+          </div>
+          <div class="detail-row">
+            <strong>Medical Council:</strong> <span>{{ doctorProfile.registrationCouncil }}</span>
+          </div>
+          <div class="detail-row">
+            <strong>Registration Year:</strong> <span>{{ doctorProfile.registrationYear }}</span>
+          </div>
+          <div class="detail-row">
+            <strong>Verification Status:</strong>
+            <span [style.color]="doctorProfile.isVerified ? 'green' : 'orange'">
+              {{ doctorProfile.isVerified ? 'Verified' : 'Pending Verification' }}
+            </span>
+          </div>
+
+          <div style="margin-top: 30px;">
+            <button class="btn btn-primary" (click)="goToProfile()">Go to Profile</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions" *ngIf="!uploadSuccess">
+      <button class="btn btn-back" (click)="prevStep()" *ngIf="currentStep > 1">← Back</button>
+      <div class="spacer"></div>
+      <button class="btn btn-primary" (click)="nextStep()">{{ currentStep === 4 ? 'Complete' : 'Next' }}</button>
+    </div>
+  </div>
+</div>
+
+<!-- Profile Display View -->
+<div class="onboarding-container" *ngIf="showProfileView && doctorProfile">
+  <div class="profile-header">
+    <h2 style="margin: 0; color: #1e293b;">Doctor Profile</h2>
+    <button class="btn btn-outline" (click)="toggleEdit()" *ngIf="!isEditing">Edit Profile</button>
+    <button class="btn btn-outline" (click)="toggleEdit()" *ngIf="isEditing">Cancel Edit</button>
+  </div>
+
+  <div *ngIf="!isEditing" class="profile-view-content">
+    <div class="section-block">
+      <h4>Personal Information</h4>
+      <div class="detail-row"><strong>Name:</strong> <span>{{ doctorProfile.name }}</span></div>
+      <div class="detail-row"><strong>Email:</strong> <span>{{ doctorProfile.email }}</span></div>
+      <div class="detail-row">
+        <strong>Verification Status:</strong> 
+        <span [style.color]="doctorProfile.isVerified ? 'green' : 'orange'">
+          {{ doctorProfile.isVerified ? 'Verified' : 'Pending Verification' }}
+        </span>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <h4>Professional Details</h4>
+      <div class="detail-row"><strong>Experience:</strong> <span>{{ doctorProfile.experienceYears }} Years</span></div>
+      <div class="detail-row"><strong>Consultation Fee:</strong> <span>₹{{ doctorProfile.consultationFee }}</span></div>
+      <div class="detail-row"><strong>Qualifications:</strong> <span>{{ doctorProfile.qualifications || 'Not provided' }}</span></div>
+      <div class="detail-row"><strong>Biography:</strong> <span>{{ doctorProfile.biography || 'Not provided' }}</span></div>
+      <div class="detail-row">
+        <strong>Specializations:</strong> 
+        <span>{{ doctorProfile.specializations?.length ? doctorProfile.specializations.join(', ') : 'None' }}</span>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <h4>Medical Registration</h4>
+      <div class="detail-row"><strong>Registration Number:</strong> <span>{{ doctorProfile.registrationNumber }}</span></div>
+      <div class="detail-row"><strong>Medical Council:</strong> <span>{{ doctorProfile.registrationCouncil }}</span></div>
+      <div class="detail-row"><strong>Registration Year:</strong> <span>{{ doctorProfile.registrationYear }}</span></div>
+    </div>
+
+    <div class="section-block">
+      <h4>Establishments / Clinics</h4>
+      <div *ngFor="let clinic of doctorProfile.clinics" class="clinic-card">
+        <strong>{{ clinic.name }}</strong>
+        <p>{{ clinic.address }}, {{ clinic.city }}</p>
+        <p>Fee at Clinic: ₹{{ clinic.consultationFeeAtClinic }}</p>
+      </div>
+      <div *ngIf="!doctorProfile.clinics?.length">No clinics connected.</div>
+    </div>
+  </div>
+
+  <div *ngIf="isEditing" class="profile-edit-content">
+    <div class="form-group">
+      <label>Full Name</label>
+      <input type="text" [(ngModel)]="editData.name" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>Experience (Years)</label>
+      <input type="number" [(ngModel)]="editData.experienceYears" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>Consultation Fee (₹)</label>
+      <input type="number" [(ngModel)]="editData.consultationFee" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>Qualifications</label>
+      <input type="text" [(ngModel)]="editData.qualifications" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>Biography</label>
+      <textarea [(ngModel)]="editData.biography" class="form-control" rows="4"></textarea>
+    </div>
+
+    <div style="margin-top: 30px;">
+      <button class="btn btn-primary" (click)="saveProfile()">Save Changes</button>
+    </div>
+  </div>
+</div>

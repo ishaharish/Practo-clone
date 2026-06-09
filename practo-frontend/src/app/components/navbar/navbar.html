@@ -1,0 +1,52 @@
+<nav class="bg-white shadow-sm border-b border-gray-100 sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between h-16">
+      <div class="flex items-center">
+        <!-- Logo -->
+        <a routerLink="/" class="flex-shrink-0 flex items-center gap-1 cursor-pointer">
+          <div class="w-2 h-2 rounded-full bg-practo-blue mt-1"></div>
+          <span class="text-2xl font-bold text-practo-blue tracking-tight">practo</span>
+        </a>
+
+        <!-- Main Links -->
+        <div class="hidden md:ml-10 md:flex md:space-x-6">
+          <a routerLink="/doctors" class="text-practo-text hover:text-practo-blue hover:border-b-2 hover:border-practo-blue px-1 py-5 text-sm font-semibold transition-colors duration-200">Find Doctors</a>
+          <a routerLink="/consult" class="text-practo-text hover:text-practo-blue hover:border-b-2 hover:border-practo-blue px-1 py-5 text-sm font-semibold transition-colors duration-200">Video Consult</a>
+          <a routerLink="/tests" class="text-practo-text hover:text-practo-blue hover:border-b-2 hover:border-practo-blue px-1 py-5 text-sm font-semibold transition-colors duration-200">Lab Tests</a>
+          <a routerLink="/surgeries" class="text-practo-text hover:text-practo-blue hover:border-b-2 hover:border-practo-blue px-1 py-5 text-sm font-semibold transition-colors duration-200">Surgeries</a>
+        </div>
+      </div>
+
+      <!-- Right Side -->
+      <div class="hidden md:flex items-center space-x-6">
+        <div class="relative group cursor-pointer">
+          <span class="bg-practo-accent text-white text-[10px] font-bold px-2 py-0.5 rounded-full absolute -top-3 -left-2">NEW</span>
+          <span class="text-sm text-practo-text hover:text-practo-blue flex items-center gap-1">For Corporates <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></span>
+        </div>
+        
+        <div class="relative group cursor-pointer">
+          <span class="text-sm text-practo-text hover:text-practo-blue flex items-center gap-1">For Providers <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></span>
+        </div>
+
+        <div class="relative group cursor-pointer">
+          <span class="text-sm text-practo-text hover:text-practo-blue flex items-center gap-1">Security & help <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></span>
+        </div>
+        
+        <div *ngIf="!isLoggedIn" class="flex gap-2">
+          <a routerLink="/auth/login" class="border border-practo-blue text-practo-text hover:text-white hover:bg-practo-blue px-4 py-1.5 rounded text-sm font-semibold transition-colors duration-200">Login / Signup</a>
+        </div>
+        
+        <div *ngIf="isLoggedIn" class="relative group cursor-pointer flex items-center gap-4">
+          <span class="text-sm text-practo-text hover:text-practo-blue flex items-center gap-1">{{userName}} <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></span>
+          
+          <!-- Dropdown menu on hover -->
+          <div class="absolute right-0 top-full mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden group-hover:block border border-gray-100 z-50">
+            <a routerLink="/appointments" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-practo-blue">My Appointments</a>
+            <a *ngIf="userRole === 'Doctor'" routerLink="/doctor/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-practo-blue font-semibold">Doctor Portal</a>
+            <button (click)="logout()" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-red-500">Logout</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

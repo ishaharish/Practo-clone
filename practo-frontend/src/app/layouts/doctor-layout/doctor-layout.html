@@ -1,0 +1,58 @@
+<div class="doctor-layout">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <span>practo</span>
+      </div>
+    </div>
+    
+    <div class="doctor-info">
+      <div class="name">Doctor Portal</div>
+    </div>
+
+    <ul class="nav-menu">
+      <li>
+        <a routerLink="/doctor/calendar" routerLinkActive="active">
+          <i class="fa-regular fa-calendar"></i>
+          Calendar
+        </a>
+      </li>
+      <li>
+        <a routerLink="/doctor/patients" routerLinkActive="active">
+          <i class="fa-solid fa-users"></i>
+          Patients
+        </a>
+      </li>
+      <li>
+        <a routerLink="/doctor/reports" routerLinkActive="active">
+          <i class="fa-solid fa-chart-line"></i>
+          Reports
+        </a>
+      </li>
+      <li>
+        <a routerLink="/doctor/profile" routerLinkActive="active">
+          <i class="fa-regular fa-user"></i>
+          Profile
+        </a>
+      </li>
+    </ul>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <header class="topbar">
+      <div class="topbar-actions">
+        <i class="fa-regular fa-bell"></i>
+        <i class="fa-regular fa-circle-question"></i>
+        <div class="profile-avatar">
+          <i class="fa-regular fa-user"></i>
+        </div>
+      </div>
+    </header>
+
+    <div class="content-area">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>

@@ -1,0 +1,356 @@
+.patient-chart-wrapper {
+  padding: 24px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header Block */
+.chart-header {
+  display: flex;
+  align-items: center;
+  background: white;
+  padding: 20px 24px;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  margin-bottom: 24px;
+  border: 1px solid #e2e8f0;
+}
+
+.patient-avatar-large {
+  width: 70px;
+  height: 70px;
+  background: #f1f5f9;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: #64748b;
+  margin-right: 20px;
+}
+
+.patient-title-block h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 8px;
+}
+
+.demographic-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.pill {
+  background: #f1f5f9;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 0.85rem;
+  color: #475569;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pill i {
+  color: #64748b;
+}
+
+/* Body Layout */
+.chart-body {
+  display: flex;
+  gap: 24px;
+  flex: 1;
+  min-height: 0; /* for scrolling */
+}
+
+/* Timeline Column */
+.timeline-column {
+  flex: 2;
+  background: white;
+  border-radius: 12px;
+  padding: 20px 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  border: 1px solid #e2e8f0;
+  overflow-y: auto;
+}
+
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.timeline-container {
+  position: relative;
+  padding-left: 20px;
+}
+
+.timeline-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 5px;
+  width: 2px;
+  background: #e2e8f0;
+}
+
+.timeline-node {
+  position: relative;
+  margin-bottom: 30px;
+}
+
+.timeline-marker {
+  position: absolute;
+  left: -20px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #3b82f6;
+  border: 2px solid white;
+  box-shadow: 0 0 0 2px #bfdbfe;
+  top: 5px;
+}
+
+.timeline-content {
+  background: #f8fafc;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid #f1f5f9;
+}
+
+.appt-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.appt-date {
+  font-weight: 600;
+  color: #334155;
+  font-size: 0.95rem;
+}
+
+.appt-status {
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.appt-status.confirmed { background: #dcfce7; color: #166534; }
+.appt-status.pending { background: #fef9c3; color: #854d0e; }
+.appt-status.cancelled { background: #fee2e2; color: #991b1b; }
+
+.appt-doctor {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin-bottom: 10px;
+}
+
+.appt-symptoms {
+  font-size: 0.85rem;
+  color: #475569;
+  background: white;
+  padding: 8px 12px;
+  border-left: 3px solid #f59e0b;
+  border-radius: 4px;
+  margin-bottom: 12px;
+}
+
+.medical-record-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.record-section {
+  padding: 12px 16px;
+}
+
+.record-section:not(:last-child) {
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.record-section h4 {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.record-section p {
+  font-size: 0.9rem;
+  color: #334155;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+/* Actions Column */
+.actions-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow-y: auto;
+}
+
+.action-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  border: 1px solid #e2e8f0;
+}
+
+.action-card h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.action-card h3 i {
+  color: #3b82f6;
+}
+
+.card-subtitle {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin-bottom: 16px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #475569;
+  margin-bottom: 6px;
+}
+
+.form-group textarea, .form-group input {
+  width: 100%;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.form-group textarea:focus, .form-group input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+.form-row {
+  display: flex;
+  gap: 12px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.btn-primary, .btn-outline-primary {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.95rem;
+}
+
+.btn-primary {
+  background: #3b82f6;
+  color: white;
+  border: none;
+}
+
+.btn-primary:hover {
+  background: #2563eb;
+}
+
+.btn-outline-primary {
+  background: white;
+  color: #3b82f6;
+  border: 1px solid #3b82f6;
+}
+
+.btn-outline-primary:hover {
+  background: #eff6ff;
+}
+
+.btn-danger-outline {
+  background: white;
+  color: #ef4444;
+  border: 1px solid #ef4444;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-danger-outline:hover {
+  background: #fef2f2;
+}
+
+.next-visit-card {
+  background: #f8fafc;
+  border-color: #bfdbfe;
+}
+
+.toast {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: #10b981;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+  z-index: 9999;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+.empty-timeline {
+  padding: 30px 0;
+  text-align: center;
+  color: #94a3b8;
+  font-style: italic;
+}
